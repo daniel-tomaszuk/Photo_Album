@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from my_clone.views import *
+
+
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^', MainPage.as_view(), name='main-page'),
 ]
