@@ -5,9 +5,10 @@
         <!--<title>{{ title }}</title>-->
         {% if logged %}
             {{ user }}
-            <a href="{% url 'logout' %}">Wyloguj!</a>
+            <a href="{% url 'logout' %}">Logout!</a>
         {% else %}
-            <a href="{% url 'login' %}">Zaloguj!</a>
+            <a href="{% url 'login' %}">Login!</a>
+            <a href="{% url 'add-user' %}">Create User!</a>
         {% endif %}
 
     </head>

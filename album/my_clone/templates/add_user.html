@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="add-user" method="post">
+		{%	csrf_token	%}
+	    {{ message }}
+		{{	form.as_p	}}
+		{% if user_info %}
+	 		<p> Your user info:</p>
+			{{ user_info.username }} <br>
+	    	{{ user_info.first_name }} <br>
+			{{ user_info.last_name }} <br>
+			{{ user_info.email }}
+		{% else %}
+			<input type="submit" value="Create Account!"></input>
+		{% endif %}
+</form>
+{% endblock %}
+

@@ -9,7 +9,9 @@ from django.contrib.auth import (authenticate, login, logout)
 
 
 class Login(FormView):
+
     template_name = 'login.html'
+    # form_class in FormView !
     form_class = Login
 
     def get_success_url(self):
@@ -32,8 +34,6 @@ class Login(FormView):
         return super(Login, self).form_valid(form)
 
 
-
-
 class Logout(FormView):
 
     def get(self, request):
@@ -41,10 +41,15 @@ class Logout(FormView):
         return redirect('/login')
 
 
-class MainPage(View):
+class MainPage(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
 
     def get(self, request):
-        photos = Photo.objects.all()
+
+        photos = Photo.objects.order_by('-creation_date').filter(my_user=request.user)
+
+
         context = {
             "title": "Main Page",
             "content": "Main Page!",
@@ -53,12 +58,38 @@ class MainPage(View):
         return render(request, "main_page.html", context)
 
 
-# class AddUser(LoginRequiredMixin, CreateView):
-class AddUser(CreateView):
-    model = User
-    template_name = "user_form.html"
-    fields = ['username', 'password', 'email', 'first_name', 'last_name']
-    success_url = '/add_user'
+# # class AddUser(LoginRequiredMixin, CreateView):
+class AddUser(FormView):
+
+        template_name = 'add_user.html'
+        form_class = AddUserForm
+        success_url = '/add_user/'
+
+        def form_valid(self, form):
+            # takes data from the form
+            username = form.cleaned_data['username']
+            first_name = form.cleaned_data['first_name']
+            last_name = form.cleaned_data['last_name']
+            email = form.cleaned_data['email']
+            pass1 = form.cleaned_data['password']
+            pass2 = form.cleaned_data['password_retype']
+
+            if pass1 != pass2:
+                form = AddUserForm  # (self.request.POST) #-> na poscie wypelnia dane od razu, moze niedzialac
+                return render(self.request, 'add_user.html', {'message': 'Pass1 and Pass2 do not match',
+                                                              'form': form})
+            try:  # check if login isn't already taken by someone else
+                if (User.objects.get(username=username)):
+                    return render(self.request, 'add_user.html', {'message': 'Login zajety',
+                                                                  'form': form})
+            except ObjectDoesNotExist:
+                # if there is no user with such login - creating is possible
+                pass
+
+            # User class has it's own method for creating new user -> .create_user
+            User.objects.create_user(username=username, email=email, password=pass1,
+                                     first_name=first_name, last_name=last_name)
+            return super(AddUser, self).form_valid(form)
 
 
 class AddPhoto(LoginRequiredMixin, View):

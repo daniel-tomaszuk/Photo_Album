@@ -6,10 +6,9 @@ from django.contrib.auth.models import User
 # class User -> he's always watching :)
 # https://docs.djangoproject.com/en/1.11/ref/contrib/auth/
 # his fields:
-# first_name, last_name, email, password, groups
+# username, first_name, last_name, email, password, groups
 # user_permissions, is_staff, is_active, is_superuser,
 # last_login, date_joined
-
 
 class Photo(models.Model):
 
