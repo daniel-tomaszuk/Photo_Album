@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="{% url 'login' %}" method="post">
+
+{% comment %}
+<!--<form action="{% url 'login' %}" method="post">-->
+<!--action="" so redirect after success login can take place-->
+{% endcomment%}
+
+<form action="" method="post">
 		{%	csrf_token	%}
         {{ message }}
 		{{ form.as_p }}

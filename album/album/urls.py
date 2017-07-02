@@ -17,13 +17,11 @@ from django.conf.urls import url
 from django.contrib import admin
 from my_clone.views import *
 
-
-
-
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', MainPage.as_view(), name='main-page'),
     url(r'^login/', Login.as_view(), name='login'),
+    url(r'^logout/', Logout.as_view(), name='logout'),
     url(r'^add_user/', AddUser.as_view(), name='add-user'),
     url(r'^add_photo/', AddPhoto.as_view(), name='add-photo'),
 ]

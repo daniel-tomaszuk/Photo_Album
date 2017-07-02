@@ -3,6 +3,13 @@
     <head>
         <meta charset="utf-8">
         <!--<title>{{ title }}</title>-->
+        {% if logged %}
+            {{ user }}
+            <a href="{% url 'logout' %}">Wyloguj!</a>
+        {% else %}
+            <a href="{% url 'login' %}">Zaloguj!</a>
+        {% endif %}
+
     </head>
     <body>
         {% block content %}
