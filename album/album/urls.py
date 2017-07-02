@@ -22,5 +22,8 @@ from my_clone.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', MainPage.as_view(), name='main-page'),
+    url(r'^$', MainPage.as_view(), name='main-page'),
+    url(r'^login/', Login.as_view(), name='login'),
+    url(r'^add_user/', AddUser.as_view(), name='add-user'),
+    url(r'^add_photo/', AddPhoto.as_view(), name='add-photo'),
 ]
