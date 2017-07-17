@@ -66,8 +66,8 @@ class AddUser(FormView):
         def form_valid(self, form):
             # takes data from the form
             username = form.cleaned_data['username']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
+            # first_name = form.cleaned_data['first_name']
+            # last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             pass1 = form.cleaned_data['password']
             pass2 = form.cleaned_data['password_retype']
@@ -82,17 +82,15 @@ class AddUser(FormView):
             try:  # check if login isn't already taken by someone else
                 if User.objects.get(username=username):
                     return render(self.request, 'add_user.html',
-                              {'message': 'Login zajety', 'form': form})
+                                  {'message': 'Login taken', 'form': form})
 
             except ObjectDoesNotExist:
                 # if there is no user with such login - creating is possible
                 pass
-
             # User class has it's own method for creating new user
             # ->.create_user
             User.objects.create_user(username=username, email=email,
-                                     password=pass1, first_name=first_name,
-                                     last_name=last_name)
+                                     password=pass1)
             return super(AddUser, self).form_valid(form)
 
 
@@ -109,14 +107,14 @@ class AddPhoto(LoginRequiredMixin, View):
         form = AddPhotoForm(request.POST, request.FILES)
         if form.is_valid():
             server_path = form.cleaned_data['server_path']
-            disk_file = form.cleaned_data['disk_file']
-            if not ((server_path and not disk_file) or
-                    (not server_path and disk_file)):
+            # disk_file = form.cleaned_data['disk_file']
+            # if not ((server_path and not disk_file) or
+            #         (not server_path and disk_file)):
                 # raise forms.ValidationError('Please fill one of the fields.')
-                context = {
-                    'message': 'Please fill only one of the fields.',
-                    'form': form,
-                }
+                # context = {
+                #     'message': 'Please fill only one of the fields.',
+                #     'form': form,
+                # }
 
             context = {
                 'message': 'Photo added!',

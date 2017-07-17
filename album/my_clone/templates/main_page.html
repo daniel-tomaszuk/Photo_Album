@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1> {{ title }}!</h1>
-
-    <input type="button" style="display: inline;"
+    <h1 class="img"> {{ title }}!</h1>
+    <input type="button"
            onclick="location.href='{% url 'add-photo' %}';"
            value="Add photo"/>
-    <ul>
+    <table>
         {% for photo in photos %}
-            <!--<li><img src="{{ url }}"/></li>-->
-            <li><img src="{{ photo.path }}"/></li>
+        <tr>
+            <td class="img"><img src="{{ photo.path }}"/></td>
+        </tr>
+        <tr>
+            <td class="img_info">
+                {{ photo.photo_info }}
+                <input class="like" type="button" value="Like!"/>
+                <p class="counter"></p>
+            </td>
+        </tr>
         {% endfor %}
-    </ul>
+    </table>
 {% endblock %}
 

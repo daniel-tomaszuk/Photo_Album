@@ -2,20 +2,32 @@
 <html>
     <head>
         <meta charset="utf-8">
+
+        {% load static %}
+        <!--js-->
+        <script type="text/javascript" src='{% static "my_clone/js/my_clone.js" %}'></script>
+
+        <!--css-->
+        <link rel="stylesheet" href='{% static "my_clone/css/styles.css" %}'/>
+        <!--bootstrap and css with it, CDN (content delivery network)-->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
         <!--<title>{{ title }}</title>-->
         {% if logged %}
             {{ user }}
             <input type="button" style="display: inline;"
                    onclick="location.href='{% url 'logout' %}';"
-                   value="Logout!"/>
+                   value="Logout"/>
         {% else %}
-            <!--<input type="button" style="display: inline;"-->
-                   <!--onclick="location.href='{% url 'login' %}';"-->
-                   <!--value="Login!"/>-->
+            <input type="button" style="display: inline;"
+                   onclick="location.href='{% url 'login' %}';"
+                   value="Login"/>
 
             <input type="button" style="display: inline;"
                    onclick="location.href='{% url 'add-user' %}';"
-                   value="Create User!"/>
+                   value="Create User"/>
         {% endif %}
 
     </head>

@@ -11,17 +11,18 @@ class Login(forms.Form):
 
 
 class AddPhotoForm(forms.Form):
-    server_path = forms.CharField(max_length=128, required=False)
-    disk_file = forms.FileField(required=False)
+    server_path = forms.CharField(max_length=128, required=True)
+    # disk_file = forms.FileField(required=False)
 
     # def clean(self):
-    #     # if not ((self.cleaned_data['server_path'] and not self.cleaned_data['disk_file'])
-    #     #         or (not self.cleaned_data['server_path'] and self.cleaned_data['disk_file'])):
+    #     if not ((self.cleaned_data['server_path'] and
+    #        not self.cleaned_data['disk_file'])
+    #        or (not self.cleaned_data['server_path']
+    #        and self.cleaned_data['disk_file'])):
     #
-    #     # raise ValidationError({'pub_date': _('Draft entries may not have a publication date.')})
+    #         raise ValidationError({'pub_date': _('Draft entries may not have a publication date.')})
     #
-    #
-    #     raise forms.ValidationError({'server_path': ('Error')})
+    #     raise forms.ValidationError({'server_path': 'Error'})
 
     # return self.cleaned_data
 
@@ -36,8 +37,8 @@ class AddUserForm(forms.Form):
     username = forms.CharField(label='User Login:', max_length=100)
     password = forms.CharField(label='Password:', max_length=100, widget=forms.PasswordInput)
     password_retype = forms.CharField(label='Password Retype:', max_length=100, widget=forms.PasswordInput)
-    first_name = forms.CharField(label='Imie:', max_length=100)
-    last_name = forms.CharField(label='Nazwisko:', max_length=100)
+    # first_name = forms.CharField(label='Imie:', max_length=100)
+    # last_name = forms.CharField(label='Nazwisko:', max_length=100)
     email = forms.CharField(label='Email:', max_length=100, validators=[validate_email])
 
 
