@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 # user_permissions, is_staff, is_active, is_superuser,
 # last_login, date_joined
 
+
 class Photo(models.Model):
 
     path = models.CharField(max_length=128)
@@ -16,9 +17,9 @@ class Photo(models.Model):
 
     @property
     def photo_info(self):
-        return "{} {} {}".format(self.my_user.first_name,
-                                 self.my_user.last_name,
-                                 self.creation_date)
+        return "Added: {} by {}".format(self.creation_date
+                                            .strftime("%Y-%m-%d %H:%M:%S"),
+                                        self.my_user.username)
 
     def __str__(self):
         return self.photo_info
