@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>{{ user }} {{ content }}</h1>
-    <p><a href="{% url 'add-photo' %}">Add new photo!</a></p>
+    <h1> {{ title }}!</h1>
+
+    <input type="button" style="display: inline;"
+           onclick="location.href='{% url 'add-photo' %}';"
+           value="Add photo"/>
     <ul>
         {% for photo in photos %}
             <!--<li><img src="{{ url }}"/></li>-->

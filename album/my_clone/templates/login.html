@@ -10,7 +10,13 @@
 		{%	csrf_token	%}
         {{ message }}
 		{{ form.as_p }}
-    <input type="submit" value="Wyślij"></input>
+    <input type="submit" value="Login"/>
+
+    <!--<input type="button" style="display: inline;"-->
+           <!--onclick="location.href='/';"-->
+           <!--value="Main Page!"/>-->
+
+    <!--<a href="/login/?login_cancel_url={{ request.path|urlencode }}">-->
 </form>
 {% endblock %}
 

@@ -16,7 +16,8 @@ class Login(FormView):
 
     def get_success_url(self):
         # find your next url here
-        next_url = self.request.GET.get('next')  # here method should be GET or POST.
+        # here method should be GET or POST.
+        next_url = self.request.GET.get('next')
         if next_url:
             success_url = next_url
             return success_url  # you can include some query strings as well
@@ -35,7 +36,6 @@ class Login(FormView):
 
 
 class Logout(FormView):
-
     def get(self, request):
         logout(request)
         return redirect('/login')
@@ -46,13 +46,11 @@ class MainPage(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def get(self, request):
-
-        photos = Photo.objects.order_by('-creation_date').filter(my_user=request.user)
-
+        photos = Photo.objects.order_by('-creation_date')\
+                              .filter(my_user=request.user)
 
         context = {
             "title": "Main Page",
-            "content": "Main Page!",
             "photos": photos,
         }
         return render(request, "main_page.html", context)
@@ -75,20 +73,26 @@ class AddUser(FormView):
             pass2 = form.cleaned_data['password_retype']
 
             if pass1 != pass2:
-                form = AddUserForm  # (self.request.POST) #-> na poscie wypelnia dane od razu, moze niedzialac
-                return render(self.request, 'add_user.html', {'message': 'Pass1 and Pass2 do not match',
-                                                              'form': form})
+                form = AddUserForm
+                # (self.request.POST)
+                return render(self.request, 'add_user.html',
+                              {'message': 'Pass1 and Pass2 do not match',
+                               'form': form})
+
             try:  # check if login isn't already taken by someone else
-                if (User.objects.get(username=username)):
-                    return render(self.request, 'add_user.html', {'message': 'Login zajety',
-                                                                  'form': form})
+                if User.objects.get(username=username):
+                    return render(self.request, 'add_user.html',
+                              {'message': 'Login zajety', 'form': form})
+
             except ObjectDoesNotExist:
                 # if there is no user with such login - creating is possible
                 pass
 
-            # User class has it's own method for creating new user -> .create_user
-            User.objects.create_user(username=username, email=email, password=pass1,
-                                     first_name=first_name, last_name=last_name)
+            # User class has it's own method for creating new user
+            # ->.create_user
+            User.objects.create_user(username=username, email=email,
+                                     password=pass1, first_name=first_name,
+                                     last_name=last_name)
             return super(AddUser, self).form_valid(form)
 
 
@@ -106,12 +110,14 @@ class AddPhoto(LoginRequiredMixin, View):
         if form.is_valid():
             server_path = form.cleaned_data['server_path']
             disk_file = form.cleaned_data['disk_file']
-            if not ((server_path and not disk_file) or (not server_path and disk_file)):
+            if not ((server_path and not disk_file) or
+                    (not server_path and disk_file)):
                 # raise forms.ValidationError('Please fill one of the fields.')
                 context = {
                     'message': 'Please fill only one of the fields.',
                     'form': form,
                 }
+
             context = {
                 'message': 'Photo added!',
                 'form': form,
@@ -127,3 +133,4 @@ class AddPhoto(LoginRequiredMixin, View):
             }
 
         return render(request, "add_photo.html", context)
+

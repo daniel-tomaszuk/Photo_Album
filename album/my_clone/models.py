@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
-
 # class User -> he's always watching :)
 # https://docs.djangoproject.com/en/1.11/ref/contrib/auth/
 # his fields:
@@ -21,12 +19,7 @@ class Photo(models.Model):
         return "{} {} {}".format(self.my_user.first_name,
                                  self.my_user.last_name,
                                  self.creation_date)
+
     def __str__(self):
         return self.photo_info
-
-
-
-
-
-
 

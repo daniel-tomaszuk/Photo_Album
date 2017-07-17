@@ -5,10 +5,17 @@
         <!--<title>{{ title }}</title>-->
         {% if logged %}
             {{ user }}
-            <a href="{% url 'logout' %}">Logout!</a>
+            <input type="button" style="display: inline;"
+                   onclick="location.href='{% url 'logout' %}';"
+                   value="Logout!"/>
         {% else %}
-            <a href="{% url 'login' %}">Login!</a>
-            <a href="{% url 'add-user' %}">Create User!</a>
+            <!--<input type="button" style="display: inline;"-->
+                   <!--onclick="location.href='{% url 'login' %}';"-->
+                   <!--value="Login!"/>-->
+
+            <input type="button" style="display: inline;"
+                   onclick="location.href='{% url 'add-user' %}';"
+                   value="Create User!"/>
         {% endif %}
 
     </head>

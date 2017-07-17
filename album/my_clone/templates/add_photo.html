@@ -5,7 +5,11 @@
 		{%	csrf_token	%}
         {{ message }}
         {{  form.as_p   }}
-        <input type="submit" value="Add photo!"!></input>
+        <input type="submit" value="Add photo!"/>
+        <input type="button" style="display: inline;"
+               onclick="location.href='/';" value="Back To Main Page"/>
 </form>
+
+
 {% endblock %}
 
