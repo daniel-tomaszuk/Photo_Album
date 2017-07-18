@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--logged user from my_cp_1.py-->
+    <h1>Information about you: {{ user.username }}</h1>
+    <table>
+        <tr>
+            <td><b>First Name:</b> {{ user.first_name }}</td>
+        </tr>
+        <tr>
+            <td><b>Last Name:</b> {{ user.last_name }}</td>
+        </tr>
+        <tr>
+            <td><b>Email:</b> {{ user.email }}</td>
+        </tr>
+    </table>
+    <table>
+        {% for photo in photos %}
+        <tr>
+            <td class="img">
+                <a href="/photo_info/{{ photo.id }}">
+                    <img src="{{ photo.path }}"
+                                     alt="IMG ID:{{ photo.id }}"/>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
