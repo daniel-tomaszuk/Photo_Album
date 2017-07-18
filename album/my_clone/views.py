@@ -48,30 +48,30 @@ class MainPage(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def get(self, request):
-        message = ""
-        photos = Photo.objects.order_by('-creation_date')\
-                              .filter(my_user=request.user)
+        message = []
+        total_likes = []
+        # photos = Photo.objects.order_by('-creation_date')\
+        #                       .filter(my_user=request.user)
 
+        photos = Photo.objects.order_by('-creation_date').all()
+
+        # if user clicked "like"
         photo_id = request.GET.get('photo_id')
         if photo_id:
+            # object for Like creation
             photo = Photo.objects.get(pk=photo_id)
             new_like, created = Likes.objects.get_or_create(user=request.user,
                                                             photo=photo)
             if not created:
-                message = "Already liked!"
+                message.append(["Already liked!", photo_id])
             else:
                 # oll korrekt
                 pass
 
-
-
-            # TO DO: make it work ... :<
-            total_likes = Likes.objects.filter(photo_id=photo_id).count()
-
-
-
-        else:
-            total_likes = 0
+        # get all likes for each photo
+        for photo in photos:
+            total_likes.append([Likes.objects.
+                               filter(photo_id=photo.id).count(), photo.id])
 
         # get total likes count from LikeMessage class
         # storage = get_messages(request)

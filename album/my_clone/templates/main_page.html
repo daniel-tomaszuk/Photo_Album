@@ -16,11 +16,26 @@
                       action="{% url 'main-page' %}" method="get">
 
 		            <!--{%	csrf_token	%}-->
-                    <input class="like" type="submit" name="photo_id"
-                           value="{{ photo.id }}"/>
+                    <button class="like" type="submit" name="photo_id"
+                            value="{{ photo.id }}">Like!</button>
                 </form>
 
-                <p class="counter">{{ total_likes }} {{ message }}</p>
+                <span class="counter">
+
+                    {% for counter in total_likes %}
+
+                        {% if counter.1 == photo.id %}
+                            {{ counter.0 }}
+                        {% endif %}
+
+                    {% endfor %}
+
+
+                    <!--cast photo.id into string-->
+                    {% if message.0.1 == photo.id|stringformat:"i" %}
+                        {{ message.0.0 }}
+                    {% endif %}
+                </span>
             </td>
         </tr>
         {% endfor %}
