@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+    <!--logged user from my_cp_1.py-->
+    <h1>Information about photo: {{ photo.id }}</h1>
+    <p>
+        {{ photo.photo_info }}
+    </p>
+    <img src="{{ photo.path }} alt="IMG ID:{{ photo.id }}"/>
+    </table>
+{% endblock %}
+
