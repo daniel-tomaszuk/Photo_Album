@@ -4,6 +4,8 @@
     <input type="button"
            onclick="location.href='{% url 'add-photo' %}';"
            value="Add photo"/>
+
+   
     <table>
         {% for photo in photos %}
         <tr>
@@ -21,18 +23,23 @@
                 </form>
 
                 <span class="counter">
-
                     {% for counter in total_likes %}
-
+                        <!--show likes counter next to like button-->
                         {% if counter.1 == photo.id %}
                             {{ counter.0 }}
                         {% endif %}
+                    {% endfor %}
 
+                    {% for liked_photo_id in liked_photos %}
+                        {% if liked_photo_id == photo.id %}
+                            You like it!
+                        {% endif %}
                     {% endfor %}
 
 
-                    <!--cast photo.id into string-->
+                    <!--if there is message to show for photo-->
                     {% if message.0.1 == photo.id|stringformat:"i" %}
+                        <!--"Already liked!" message - check MainPage View-->
                         {{ message.0.0 }}
                     {% endif %}
                 </span>

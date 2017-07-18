@@ -50,6 +50,7 @@ class MainPage(LoginRequiredMixin, View):
     def get(self, request):
         message = []
         total_likes = []
+        liked_photos_list = []
         # photos = Photo.objects.order_by('-creation_date')\
         #                       .filter(my_user=request.user)
 
@@ -58,14 +59,14 @@ class MainPage(LoginRequiredMixin, View):
         # if user clicked "like"
         photo_id = request.GET.get('photo_id')
         if photo_id:
-            # object for Like creation
+            # creation of new Like object
             photo = Photo.objects.get(pk=photo_id)
             new_like, created = Likes.objects.get_or_create(user=request.user,
                                                             photo=photo)
             if not created:
                 message.append(["Already liked!", photo_id])
             else:
-                # oll korrekt
+                # if created -> OK
                 pass
 
         # get all likes for each photo
@@ -73,17 +74,23 @@ class MainPage(LoginRequiredMixin, View):
             total_likes.append([Likes.objects.
                                filter(photo_id=photo.id).count(), photo.id])
 
-        # get total likes count from LikeMessage class
-        # storage = get_messages(request)
-        # total_likes = None
-        # for message in storage:
-        #     total_likes = message
-        #     break
+        # query set of Likes objects for logged user
+        likes = (Likes.objects.filter(user_id=request.user.id))
+        for like in likes:
+            # photo.id -> field in Likes table
+            liked_photos_list.append(like.photo.id)
+
+        # wez liste wszystkich zdjec ktore lubi zalogowany user,
+        # sprawdzaaj kazde zdjecie - jezeli user je lubi, dopisz do
+        # wiadomosci id zdjecia oraz wiadomosc "lubisz to"
+        # like_user_list = Likes.objects.filter()
+
         context = {
             "title": "Main Page",
-            "photos": photos,
-            "message": message,
-            "total_likes": total_likes,
+            "photos": photos,  # all photos list
+            "message": message,  # additional message
+            "total_likes": total_likes,  # total likes for each photo
+            "liked_photos": liked_photos_list,  # photos liked by logged user
         }
         return render(request, "main_page.html", context)
 
