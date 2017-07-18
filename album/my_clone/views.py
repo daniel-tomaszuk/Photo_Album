@@ -6,7 +6,9 @@ from .forms import *
 from django.contrib.auth.mixins import *
 from django.contrib.auth.models import *
 from django.contrib.auth import (authenticate, login, logout)
-
+#
+# from django.contrib import messages
+# from django.contrib.messages import get_messages
 
 class Login(FormView):
 
@@ -46,14 +48,77 @@ class MainPage(LoginRequiredMixin, View):
     redirect_field_name = 'next'
 
     def get(self, request):
+        message = ""
         photos = Photo.objects.order_by('-creation_date')\
                               .filter(my_user=request.user)
 
+        photo_id = request.GET.get('photo_id')
+        if photo_id:
+            photo = Photo.objects.get(pk=photo_id)
+            new_like, created = Likes.objects.get_or_create(user=request.user,
+                                                            photo=photo)
+            if not created:
+                message = "Already liked!"
+            else:
+                # oll korrekt
+                pass
+
+
+
+            # TO DO: make it work ... :<
+            total_likes = Likes.objects.filter(photo_id=photo_id).count()
+
+
+
+        else:
+            total_likes = 0
+
+        # get total likes count from LikeMessage class
+        # storage = get_messages(request)
+        # total_likes = None
+        # for message in storage:
+        #     total_likes = message
+        #     break
         context = {
             "title": "Main Page",
             "photos": photos,
+            "message": message,
+            "total_likes": total_likes,
         }
         return render(request, "main_page.html", context)
+
+
+    # def post(self, reqest):
+    #     new_like, created = Like.objects.get_or_create(user=request.user,
+    #                                                    picture_id=picture_id)
+    #
+    #
+    #     if not created:
+    #     # the user already liked this picture before
+    #         pass
+    #     else:
+    #
+    #     # oll korrekt
+
+
+
+
+
+
+
+
+# class LikeMessage(View):
+#     def get(self, request):
+#         pass
+#
+#     def post(self, request):
+#         photo_id = request.POST.get('photo_id')
+#         photo = Photo.objects.get(pk=photo_id)
+#         photo.likes = User
+#         photo.save()
+#         # Add the messages
+#         messages.add_message(request, messages.INFO, photo.total_likes)
+#         return HttpResponseRedirect('/')
 
 
 # # class AddUser(LoginRequiredMixin, CreateView):
@@ -131,4 +196,14 @@ class AddPhoto(LoginRequiredMixin, View):
             }
 
         return render(request, "add_photo.html", context)
+
+
+
+
+
+
+
+
+
+
 

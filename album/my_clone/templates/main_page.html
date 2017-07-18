@@ -12,8 +12,15 @@
         <tr>
             <td class="img_info">
                 {{ photo.photo_info }}
-                <input class="like" type="button" value="Like!"/>
-                <p class="counter"></p>
+                <form id="{{ photo.id }}" class="like"
+                      action="{% url 'main-page' %}" method="get">
+
+		            <!--{%	csrf_token	%}-->
+                    <input class="like" type="submit" name="photo_id"
+                           value="{{ photo.id }}"/>
+                </form>
+
+                <p class="counter">{{ total_likes }} {{ message }}</p>
             </td>
         </tr>
         {% endfor %}

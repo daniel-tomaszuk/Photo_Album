@@ -17,15 +17,15 @@
         <!--<title>{{ title }}</title>-->
         {% if logged %}
             {{ user }}
-            <input type="button" style="display: inline;"
+            <input type="button" class=".login"
                    onclick="location.href='{% url 'logout' %}';"
                    value="Logout"/>
         {% else %}
-            <input type="button" style="display: inline;"
+            <input type="button" class=".login"
                    onclick="location.href='{% url 'login' %}';"
                    value="Login"/>
 
-            <input type="button" style="display: inline;"
+            <input type="button" class=".login"
                    onclick="location.href='{% url 'add-user' %}';"
                    value="Create User"/>
         {% endif %}

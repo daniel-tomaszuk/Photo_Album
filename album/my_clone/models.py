@@ -17,10 +17,23 @@ class Photo(models.Model):
 
     @property
     def photo_info(self):
-        return "Added: {} by {}".format(self.creation_date
-                                            .strftime("%Y-%m-%d %H:%M:%S"),
+        return "Added: {} by {}".format(self.creation_date.strftime("%Y-%m-%d "
+                                                                   "%H:%M:%S"),
                                         self.my_user.username)
 
     def __str__(self):
         return self.photo_info
+
+
+class Likes(models.Model):
+    user = models.ForeignKey(User)
+    photo = models.ForeignKey(Photo)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+
+
+
+
+
 

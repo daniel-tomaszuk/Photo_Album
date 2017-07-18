@@ -2,7 +2,7 @@
     color: red;
 }
 
-.like, .counter{
+.like, .counter, .login{
     display: inline;
 }
 

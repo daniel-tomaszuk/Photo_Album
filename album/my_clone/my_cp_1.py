@@ -6,6 +6,6 @@ def is_logged(request):
         }
     else:
         context = {
-            "logged": False
+            "logged": False,
         }
     return context
