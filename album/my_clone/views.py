@@ -95,39 +95,6 @@ class MainPage(LoginRequiredMixin, View):
         return render(request, "main_page.html", context)
 
 
-    # def post(self, reqest):
-    #     new_like, created = Like.objects.get_or_create(user=request.user,
-    #                                                    picture_id=picture_id)
-    #
-    #
-    #     if not created:
-    #     # the user already liked this picture before
-    #         pass
-    #     else:
-    #
-    #     # oll korrekt
-
-
-
-
-
-
-
-
-# class LikeMessage(View):
-#     def get(self, request):
-#         pass
-#
-#     def post(self, request):
-#         photo_id = request.POST.get('photo_id')
-#         photo = Photo.objects.get(pk=photo_id)
-#         photo.likes = User
-#         photo.save()
-#         # Add the messages
-#         messages.add_message(request, messages.INFO, photo.total_likes)
-#         return HttpResponseRedirect('/')
-
-
 # # class AddUser(LoginRequiredMixin, CreateView):
 class AddUser(FormView):
 
@@ -205,8 +172,21 @@ class AddPhoto(LoginRequiredMixin, View):
         return render(request, "add_photo.html", context)
 
 
+class UserInfo(View):
+    def get(self, request):
+        logged_user = request.user
+        photos = Photo.objects.filter(my_user_id=logged_user.id)
+        context = {
+            'user': logged_user,
+            'photos': photos,
+        }
+        return render(request, "user_info.html", context)
 
 
+class PhotoInfo(View):
+    def get(self, request, photo_id):
+        photo = Photo.objects.get(pk=photo_id)
+        return render(request, "photo_info.html", {'photo': photo})
 
 
 

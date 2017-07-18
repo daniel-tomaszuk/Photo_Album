@@ -24,5 +24,8 @@ urlpatterns = [
     url(r'^logout/', Logout.as_view(), name='logout'),
     url(r'^add_user/', AddUser.as_view(), name='add-user'),
     url(r'^add_photo/', AddPhoto.as_view(), name='add-photo'),
+    url(r'^user_info/', UserInfo.as_view(), name='user-info'),
+    url(r'^photo_info/(?P<photo_id>(\d)+)', PhotoInfo.as_view(),
+        name="photo-info"),
     # url(r'^like_message/', LikeMessage.as_view(), name='like-message'),
 ]
