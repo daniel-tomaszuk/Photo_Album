@@ -2,9 +2,6 @@
 {% block content %}
     <!--logged user from my_cp_1.py-->
     <h1>Information about: {{ user.username }}</h1>
-
-
-
     <table>
         <tr>
             <td>
@@ -17,7 +14,7 @@
             </td>
             <td rowspan="3">
                 <a href="{% url 'user-update' pk=user.id %}">
-                    <button>Edit</button>
+                    <button type="button">Edit</button>
                 </a>
             </td>
         </tr>

@@ -189,12 +189,7 @@ class UpdateUser(UpdateView):
     template_name = "user_update_form.html"
     fields = ['first_name', 'last_name', "email"]
     success_url = '/user_info'
-
-
-
-
-
-
+    
 
 class PhotoInfo(LoginRequiredMixin, View):
     login_url = '/login/'

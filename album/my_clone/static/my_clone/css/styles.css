@@ -2,7 +2,7 @@
     color: red;
 }
 
-.like, .counter, .login, .my_btn{
+.like, .counter, .login, .my_btn, .button{
     display: inline;
 }
 

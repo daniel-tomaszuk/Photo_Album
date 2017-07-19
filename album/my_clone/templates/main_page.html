@@ -23,7 +23,6 @@
                 {{ photo.photo_info }}
                 <form id="{{ photo.id }}" class="like"
                       action="{% url 'main-page' %}" method="get">
-
 		            <!--{%	csrf_token	%}-->
                     <button class="like" type="submit" name="photo_id"
                             value="{{ photo.id }}">Like!</button>
