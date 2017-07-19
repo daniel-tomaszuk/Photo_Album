@@ -13,3 +13,7 @@ class PhotoAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     pass
 
+@admin.register(Like)
+class LikeAdmin(admin.ModelAdmin):
+    pass
+
