@@ -9,7 +9,13 @@
     <table>
         {% for photo in photos %}
         <tr>
-            <td class="img"><img src="{{ photo.path }}"/></td>
+            <td class="img">
+                <a href="{% url 'photo-info' photo_id=photo.id %}">
+                   <img src="{{ photo.path }}"/>
+
+                </a>
+
+            </td>
         </tr>
         <tr>
             <td class="img_info">

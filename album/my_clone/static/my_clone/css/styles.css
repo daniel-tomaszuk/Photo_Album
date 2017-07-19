@@ -6,3 +6,17 @@
     display: inline;
 }
 
+.comments > table, tr{
+    border-bottom: 1px solid #aaa;
+
+    padding: 15px;
+    text-align: left;
+}
+
+.comments > tr, td:hover{
+    background-color: #aaa;
+}
+
+.comments > tr, td:nth-child(even){
+    background-color: #f2f2f2;
+}

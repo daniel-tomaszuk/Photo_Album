@@ -61,7 +61,7 @@ class MainPage(LoginRequiredMixin, View):
         if photo_id:
             # creation of new Like object
             photo = Photo.objects.get(pk=photo_id)
-            new_like, created = Likes.objects.get_or_create(user=request.user,
+            new_like, created = Like.objects.get_or_create(user=request.user,
                                                             photo=photo)
             if not created:
                 message.append(["Already liked!", photo_id])
@@ -71,11 +71,11 @@ class MainPage(LoginRequiredMixin, View):
 
         # get all likes for each photo
         for photo in photos:
-            total_likes.append([Likes.objects.
+            total_likes.append([Like.objects.
                                filter(photo_id=photo.id).count(), photo.id])
 
         # query set of Likes objects for logged user
-        likes = (Likes.objects.filter(user_id=request.user.id))
+        likes = (Like.objects.filter(user_id=request.user.id))
         for like in likes:
             # photo.id -> field in Likes table
             liked_photos_list.append(like.photo.id)
@@ -83,7 +83,7 @@ class MainPage(LoginRequiredMixin, View):
         # wez liste wszystkich zdjec ktore lubi zalogowany user,
         # sprawdzaaj kazde zdjecie - jezeli user je lubi, dopisz do
         # wiadomosci id zdjecia oraz wiadomosc "lubisz to"
-        # like_user_list = Likes.objects.filter()
+        # like_user_list = Like.objects.filter()
 
         context = {
             "title": "Main Page",
@@ -186,7 +186,14 @@ class UserInfo(View):
 class PhotoInfo(View):
     def get(self, request, photo_id):
         photo = Photo.objects.get(pk=photo_id)
-        return render(request, "photo_info.html", {'photo': photo})
+        comments = Comment.objects.filter(photo_id=photo.id)\
+                                  .order_by('created')
+
+        context = {
+            'photo': photo,
+            'comments': comments,
+        }
+        return render(request, "photo_info.html", context)
 
 
 

@@ -6,6 +6,26 @@
         {{ photo.photo_info }}
     </p>
     <img src="{{ photo.path }} alt="IMG ID:{{ photo.id }}"/>
-    </table>
+    <div class="comments">
+        <h3>Comment section</h3>
+        <table>
+            {% for comment in comments %}
+                <tr>
+                    <td>{{ comment.comment_info }}</td>
+                </tr>
+                <tr>
+                    <td>{{ comment.text }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div id="comment_form">
+
+
+
+    </div>
+
+
+
 {% endblock %}
 
