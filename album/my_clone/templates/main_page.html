@@ -4,7 +4,9 @@
     <input type="button"
            onclick="location.href='{% url 'add-photo' %}';"
            value="Add photo"/>
-
+    <input type="button"
+           onclick="location.href='{% url 'user-info' %}';"
+           value="More info: {{ user }}"/>
 
     <table>
         {% for photo in photos %}
@@ -12,7 +14,6 @@
             <td class="img">
                 <a href="{% url 'photo-info' photo_id=photo.id %}">
                    <img src="{{ photo.path }}"/>
-
                 </a>
 
             </td>

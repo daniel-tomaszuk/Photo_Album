@@ -1,16 +1,45 @@
 {% extends "base.html" %}
 {% block content %}
     <!--logged user from my_cp_1.py-->
-    <h1>Information about you: {{ user.username }}</h1>
+    <h1>Information about: {{ user.username }}</h1>
+
+
+
     <table>
         <tr>
-            <td><b>First Name:</b> {{ user.first_name }}</td>
+            <td>
+                <b>First Name:</b>
+                {% if user.first_name %}
+                    {{ user.first_name }}
+                {% else %}
+                    Unknown..
+                {% endif %}
+            </td>
+            <td rowspan="3">
+                <a href="{% url 'user-update' pk=user.id %}">
+                    <button>Edit</button>
+                </a>
+            </td>
         </tr>
         <tr>
-            <td><b>Last Name:</b> {{ user.last_name }}</td>
+            <td>
+                <b>Last Name:</b>
+                {% if user.last_name %}
+                    {{ user.last_name }}
+                {% else %}
+                    Unknown..
+                {% endif %}
+            </td>
         </tr>
         <tr>
-            <td><b>Email:</b> {{ user.email }}</td>
+            <td>
+                <b>Email:</b>
+                {% if user.email %}
+                    {{ user.email }}
+                {% else %}
+                    Unknown..
+                {% endif %}
+            </td>
         </tr>
     </table>
     <table>
@@ -19,7 +48,7 @@
             <td class="img">
                 <a href="{% url 'photo-info' photo_id=photo.id %}">
                     <img src="{{ photo.path }}"
-                                     alt="IMG ID:{{ photo.id }}"/>
+                         alt="IMG ID:{{ photo.id }}"/>
                 </a>
             </td>
         </tr>

@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 
-<form action="{% url 'add-photo' %}" method="post" enctype="multipart/form-data">
+<form action="{% url 'add-photo' %}" method="post"
+      enctype="multipart/form-data">
 		{%	csrf_token	%}
         {{ message }}
         {{  form.as_p   }}
         <input type="submit" value="Add photo!"/>
-        <input type="button" style="display: inline;"
-               onclick="location.href='/';" value="Back To Main Page"/>
+        <a href="{% url 'user-info'%}">
+            <button>Back to Main Page..</button>
+        </a>
 </form>
-
-
 {% endblock %}
 

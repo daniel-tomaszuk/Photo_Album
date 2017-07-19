@@ -184,6 +184,18 @@ class UserInfo(LoginRequiredMixin, View):
         return render(request, "user_info.html", context)
 
 
+class UpdateUser(UpdateView):
+    model = User
+    template_name = "user_update_form.html"
+    fields = ['first_name', 'last_name', "email"]
+    success_url = '/user_info'
+
+
+
+
+
+
+
 class PhotoInfo(LoginRequiredMixin, View):
     login_url = '/login/'
     redirect_field_name = 'next'
@@ -205,5 +217,8 @@ class PhotoInfo(LoginRequiredMixin, View):
         photo = Photo.objects.get(pk=photo_id)
         Comment.objects.create(text=comment, user=request.user, photo=photo)
         return redirect('/photo_info/' + photo_id)
+
+
+
 
 
