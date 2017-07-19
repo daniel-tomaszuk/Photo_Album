@@ -95,10 +95,7 @@ class MainPage(LoginRequiredMixin, View):
         return render(request, "main_page.html", context)
 
 
-class AddUser(LoginRequiredMixin, FormView):
-    login_url = '/login/'
-    redirect_field_name = 'next'
-
+class AddUser(FormView):
     template_name = 'add_user.html'
     form_class = AddUserForm
     success_url = '/add_user/'
@@ -116,13 +113,13 @@ class AddUser(LoginRequiredMixin, FormView):
             form = AddUserForm
             # (self.request.POST)
             return render(self.request, 'add_user.html',
-                          {'message': 'Pass1 and Pass2 do not match',
+                          {'message': 'Pass1 and Pass2 do not match!',
                            'form': form})
 
         try:  # check if login isn't already taken by someone else
             if User.objects.get(username=username):
                 return render(self.request, 'add_user.html',
-                              {'message': 'Login taken', 'form': form})
+                              {'message': 'Login taken!', 'form': form})
 
         except ObjectDoesNotExist:
             # if there is no user with such login - creating is possible

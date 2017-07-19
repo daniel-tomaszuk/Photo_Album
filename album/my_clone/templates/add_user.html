@@ -2,19 +2,19 @@
 {% block content %}
 
 <form action="add-user" method="post">
-		{%	csrf_token	%}
-	    {{ message }}
-		{{	form.as_p	}}
-		{% if user_info %}
-	 		<p> Your user info:</p>
-			{{ user_info.username }} <br>
-			{{ user_info.email }}
-		{% else %}
-			<input type="submit" value="Create Account"/>
-		{% endif %}
-		<input type="button" style="display: inline;"
-			   onclick="location.href='{% url 'main-page' %}';"
-			   value="Back"/>
+	{%	csrf_token	%}
+	<b id="login_message">{{ message }}</b>
+	{{	form.as_p	}}
+	{% if user_info %}
+		<p> Your user info:</p>
+		{{ user_info.username }} <br>
+		{{ user_info.email }}
+	{% else %}
+		<input type="submit" value="Create Account"/>
+	{% endif %}
+	<input type="button" style="display: inline;"
+		   onclick="location.href='{% url 'main-page' %}';"
+		   value="Back"/>
 </form>
 {% endblock %}
 
