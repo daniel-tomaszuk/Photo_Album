@@ -184,6 +184,7 @@ class UserInfo(View):
 
 
 class PhotoInfo(View):
+
     def get(self, request, photo_id):
         photo = Photo.objects.get(pk=photo_id)
         comments = Comment.objects.filter(photo_id=photo.id)\
@@ -195,8 +196,12 @@ class PhotoInfo(View):
         }
         return render(request, "photo_info.html", context)
 
-
-
+    def post(self, request, photo_id):
+        comment = request.POST.get('text_field')
+        # photo_id = request.POST.get('photo_id')
+        photo = Photo.objects.get(pk=photo_id)
+        Comment.objects.create(text=comment, user=request.user, photo=photo)
+        return redirect('/photo_info/' + photo_id)
 
 
 

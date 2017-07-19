@@ -32,7 +32,7 @@ class Like(models.Model):
 
 
 class Comment(models.Model):
-    text = models.CharField(max_length=255)
+    text = models.TextField(max_length=255)
     user = models.ForeignKey(User)
     photo = models.ForeignKey(Photo)
     created = models.DateTimeField(auto_now=True)

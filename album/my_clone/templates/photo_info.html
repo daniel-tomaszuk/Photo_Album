@@ -8,10 +8,10 @@
     <img src="{{ photo.path }} alt="IMG ID:{{ photo.id }}"/>
     <div class="comments">
         <h3>Comment section</h3>
-        <table>
+        <table id="photo_comment_table">
             {% for comment in comments %}
                 <tr>
-                    <td>{{ comment.comment_info }}</td>
+                    <th>{{ comment.comment_info }}</th>
                 </tr>
                 <tr>
                     <td>{{ comment.text }}</td>
@@ -19,13 +19,18 @@
             {% endfor %}
         </table>
     </div>
-    <div id="comment_form">
-
-
-
+    <h3>Add new comment:</h3>
+    <div id="photo_comment_form">
+        <form action="{% url 'photo-info' photo_id=photo.id %}"
+              method="post">
+            {%	csrf_token	%}
+            <input type="hidden" name="photo_id" value="{{ photo.id }}">
+            <textarea name="text_field" placeholder="Enter comment here.."
+                      maxlength="255"></textarea>
+            <br>
+            <input type="submit" value="Comment!">
+        </form>
     </div>
-
-
-
 {% endblock %}
+
 
