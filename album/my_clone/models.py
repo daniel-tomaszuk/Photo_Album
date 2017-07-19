@@ -30,6 +30,11 @@ class Like(models.Model):
     photo = models.ForeignKey(Photo)
     created = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "User: " + str(self.user.id) + " liked" + " Photo: " + \
+               str(self.photo.id)
+
+
 
 class Comment(models.Model):
     text = models.TextField(max_length=255)

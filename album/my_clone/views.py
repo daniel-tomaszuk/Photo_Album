@@ -95,42 +95,43 @@ class MainPage(LoginRequiredMixin, View):
         return render(request, "main_page.html", context)
 
 
-# # class AddUser(LoginRequiredMixin, CreateView):
-class AddUser(FormView):
+class AddUser(LoginRequiredMixin, FormView):
+    login_url = '/login/'
+    redirect_field_name = 'next'
 
-        template_name = 'add_user.html'
-        form_class = AddUserForm
-        success_url = '/add_user/'
+    template_name = 'add_user.html'
+    form_class = AddUserForm
+    success_url = '/add_user/'
 
-        def form_valid(self, form):
-            # takes data from the form
-            username = form.cleaned_data['username']
-            # first_name = form.cleaned_data['first_name']
-            # last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
-            pass1 = form.cleaned_data['password']
-            pass2 = form.cleaned_data['password_retype']
+    def form_valid(self, form):
+        # takes data from the form
+        username = form.cleaned_data['username']
+        # first_name = form.cleaned_data['first_name']
+        # last_name = form.cleaned_data['last_name']
+        email = form.cleaned_data['email']
+        pass1 = form.cleaned_data['password']
+        pass2 = form.cleaned_data['password_retype']
 
-            if pass1 != pass2:
-                form = AddUserForm
-                # (self.request.POST)
+        if pass1 != pass2:
+            form = AddUserForm
+            # (self.request.POST)
+            return render(self.request, 'add_user.html',
+                          {'message': 'Pass1 and Pass2 do not match',
+                           'form': form})
+
+        try:  # check if login isn't already taken by someone else
+            if User.objects.get(username=username):
                 return render(self.request, 'add_user.html',
-                              {'message': 'Pass1 and Pass2 do not match',
-                               'form': form})
+                              {'message': 'Login taken', 'form': form})
 
-            try:  # check if login isn't already taken by someone else
-                if User.objects.get(username=username):
-                    return render(self.request, 'add_user.html',
-                                  {'message': 'Login taken', 'form': form})
-
-            except ObjectDoesNotExist:
-                # if there is no user with such login - creating is possible
-                pass
-            # User class has it's own method for creating new user
-            # ->.create_user
-            User.objects.create_user(username=username, email=email,
-                                     password=pass1)
-            return super(AddUser, self).form_valid(form)
+        except ObjectDoesNotExist:
+            # if there is no user with such login - creating is possible
+            pass
+        # User class has it's own method for creating new user
+        # ->.create_user
+        User.objects.create_user(username=username, email=email,
+                                 password=pass1)
+        return super(AddUser, self).form_valid(form)
 
 
 class AddPhoto(LoginRequiredMixin, View):
@@ -172,7 +173,10 @@ class AddPhoto(LoginRequiredMixin, View):
         return render(request, "add_photo.html", context)
 
 
-class UserInfo(View):
+class UserInfo(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
     def get(self, request):
         logged_user = request.user
         photos = Photo.objects.filter(my_user_id=logged_user.id)
@@ -183,7 +187,9 @@ class UserInfo(View):
         return render(request, "user_info.html", context)
 
 
-class PhotoInfo(View):
+class PhotoInfo(LoginRequiredMixin, View):
+    login_url = '/login/'
+    redirect_field_name = 'next'
 
     def get(self, request, photo_id):
         photo = Photo.objects.get(pk=photo_id)
@@ -202,7 +208,5 @@ class PhotoInfo(View):
         photo = Photo.objects.get(pk=photo_id)
         Comment.objects.create(text=comment, user=request.user, photo=photo)
         return redirect('/photo_info/' + photo_id)
-
-
 
 
