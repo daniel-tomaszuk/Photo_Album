@@ -6,7 +6,7 @@ from .forms import *
 from django.contrib.auth.mixins import *
 from django.contrib.auth.models import *
 from django.contrib.auth import (authenticate, login, logout)
-#
+from django.core.urlresolvers import reverse_lazy
 # from django.contrib import messages
 # from django.contrib.messages import get_messages
 
@@ -25,7 +25,7 @@ class Login(FormView):
             return success_url  # you can include some query strings as well
         else:
             # success_url = '/accounts/login/'
-            success_url = '/login/'
+            success_url = reverse_lazy('login')
             return success_url  # what url you wish to return'
 
     def form_valid(self, form):
@@ -40,11 +40,11 @@ class Login(FormView):
 class Logout(FormView):
     def get(self, request):
         logout(request)
-        return redirect('/login')
+        return redirect(reverse_lazy('login'))
 
 
 class MainPage(LoginRequiredMixin, View):
-    login_url = '/login/'
+    login_url = reverse_lazy('login')
     redirect_field_name = 'next'
 
     def get(self, request):
@@ -62,7 +62,7 @@ class MainPage(LoginRequiredMixin, View):
             # creation of new Like object
             photo = Photo.objects.get(pk=photo_id)
             new_like, created = Like.objects.get_or_create(user=request.user,
-                                                            photo=photo)
+                                                           photo=photo)
             if not created:
                 message.append(["Already liked!", photo_id])
             else:
@@ -79,10 +79,6 @@ class MainPage(LoginRequiredMixin, View):
         for like in likes:
             # photo.id -> field in Likes table
             liked_photos_list.append(like.photo.id)
-
-        # wez liste wszystkich zdjec ktore lubi zalogowany user,
-        # sprawdzaaj kazde zdjecie - jezeli user je lubi, dopisz do
-        # wiadomosci id zdjecia oraz wiadomosc "lubisz to"
         # like_user_list = Like.objects.filter()
 
         context = {
@@ -98,7 +94,7 @@ class MainPage(LoginRequiredMixin, View):
 class AddUser(FormView):
     template_name = 'add_user.html'
     form_class = AddUserForm
-    success_url = '/add_user/'
+    success_url = reverse_lazy('add-user')
 
     def form_valid(self, form):
         # takes data from the form
@@ -132,7 +128,7 @@ class AddUser(FormView):
 
 
 class AddPhoto(LoginRequiredMixin, View):
-    login_url = '/login/'
+    login_url = reverse_lazy('login')
     redirect_field_name = 'next'
 
     def get(self, request):
@@ -166,12 +162,11 @@ class AddPhoto(LoginRequiredMixin, View):
                 'message': 'Form not valid!',
                 'form': form,
             }
-
         return render(request, "add_photo.html", context)
 
 
 class UserInfo(LoginRequiredMixin, View):
-    login_url = '/login/'
+    login_url = reverse_lazy('login')
     redirect_field_name = 'next'
 
     def get(self, request):
@@ -188,11 +183,11 @@ class UpdateUser(UpdateView):
     model = User
     template_name = "user_update_form.html"
     fields = ['first_name', 'last_name', "email"]
-    success_url = '/user_info'
-    
+    success_url = reverse_lazy('user-info')
+
 
 class PhotoInfo(LoginRequiredMixin, View):
-    login_url = '/login/'
+    login_url = reverse_lazy('login')
     redirect_field_name = 'next'
 
     def get(self, request, photo_id):
@@ -211,9 +206,7 @@ class PhotoInfo(LoginRequiredMixin, View):
         # photo_id = request.POST.get('photo_id')
         photo = Photo.objects.get(pk=photo_id)
         Comment.objects.create(text=comment, user=request.user, photo=photo)
-        return redirect('/photo_info/' + photo_id)
+        return redirect(reverse_lazy('photo-info') + '/' + photo_id)
 
-
-
-
+# TO DO : check comments for different users!
 
