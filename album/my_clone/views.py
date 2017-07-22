@@ -206,7 +206,7 @@ class PhotoInfo(LoginRequiredMixin, View):
         # photo_id = request.POST.get('photo_id')
         photo = Photo.objects.get(pk=photo_id)
         Comment.objects.create(text=comment, user=request.user, photo=photo)
-        return redirect(reverse_lazy('photo-info') + '/' + photo_id)
+        return redirect(reverse_lazy('photo-info',
+                                     kwargs={'photo_id': photo_id}))
 
-# TO DO : check comments for different users!
 
