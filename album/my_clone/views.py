@@ -3,6 +3,7 @@ from django.views import *
 from django.views.generic.edit import *
 from .models import *
 from .forms import *
+from django.http import Http404
 from django.contrib.auth.mixins import *
 from django.contrib.auth.models import *
 from django.contrib.auth import (authenticate, login, logout)
@@ -90,9 +91,6 @@ class MainPage(LoginRequiredMixin, View):
                                            photo_id=photo_id)
             like_obj.delete()
         return redirect(reverse_lazy('main-page'))
-
-
-
 
 
 class AddUser(FormView):
@@ -183,11 +181,17 @@ class UserInfo(LoginRequiredMixin, View):
         return render(request, "user_info.html", context)
 
 
-class UpdateUser(UpdateView):
-    model = User
-    template_name = "user_update_form.html"
-    fields = ['first_name', 'last_name', "email"]
-    success_url = reverse_lazy('user-info')
+class UpdateUser(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        raise Http404("You posted in wrong neighborhood!")
+
+    def post(self, request, pk):
+        user = User.objects.get(pk=pk)
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        return redirect(reverse_lazy('user-info'))
 
 
 class PhotoInfo(LoginRequiredMixin, View):

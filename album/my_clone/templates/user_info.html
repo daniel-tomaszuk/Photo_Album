@@ -2,46 +2,39 @@
 {% block content %}
     <!--logged user from my_cp_1.py-->
     <h1>Information about: {{ user.username }}</h1>
-    <table>
-        <tr>
-            <td>
-                <b>First Name:</b>
-                {% if user.first_name %}
-                    {{ user.first_name }}
-                {% else %}
-                    Unknown..
-                {% endif %}
-            </td>
-            <td rowspan="3">
-                <a class="link" href="{% url 'user-update' pk=user.id %}">
-                    <button type="button">Edit</button>
-                </a>
-                <a class="link" href="{% url 'main-page' %}">
-                    <button type="button">Main Page</button>
-                </a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>Last Name:</b>
-                {% if user.last_name %}
-                    {{ user.last_name }}
-                {% else %}
-                    Unknown..
-                {% endif %}
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <b>Email:</b>
-                {% if user.email %}
-                    {{ user.email }}
-                {% else %}
-                    Unknown..
-                {% endif %}
-            </td>
-        </tr>
-    </table>
+
+    <form class="edit" action="{% url 'user-update' pk=user.id %}"
+          method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td>First Name:</td>
+                <td>
+                    <input type="text" name="first_name"
+                           value="{{ user.first_name }}">
+                </td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td>
+                    <input type="text" name="last_name"
+                           value="{{ user.last_name }}">
+                </td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td>
+                    <input type="email" name="email"
+                           value="{{ user.email }}">
+                </td>
+            </tr>
+        </table>
+        <input type="submit" name="submit" value="Change">
+    </form>
+    <a class="link" href="{% url 'main-page' %}">
+        <button type="button">Main Page</button>
+    </a>
+
     <table>
         {% for photo in photos %}
         <tr>

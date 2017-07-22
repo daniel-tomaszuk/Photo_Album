@@ -45,6 +45,13 @@ class AddUserForm(forms.Form):
                             validators=[validate_email])
 
 
+# class UpdateUserForm(forms.Form):
+#     first_name = forms.CharField(label='First Name:', max_length=100)
+#     last_name = forms.CharField(label='Last Name:', max_length=100)
+#     email = forms.CharField(label='Email:', max_length=100,
+#                             validators=[validate_email])
+
+
 class ResetPasswordForm(forms.Form):
     password_old = forms.CharField(label='Old Password:', max_length=100,
                                    widget=forms.PasswordInput)
