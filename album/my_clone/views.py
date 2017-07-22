@@ -53,22 +53,7 @@ class MainPage(LoginRequiredMixin, View):
         liked_photos_list = []
         # photos = Photo.objects.order_by('-creation_date')\
         #                       .filter(my_user=request.user)
-
         photos = Photo.objects.order_by('-creation_date').all()
-
-        # if user clicked "like"
-        photo_id = request.GET.get('photo_id')
-        if photo_id:
-            # creation of new Like object
-            photo = Photo.objects.get(pk=photo_id)
-            new_like, created = Like.objects.get_or_create(user=request.user,
-                                                           photo=photo)
-            if not created:
-                message.append(["Already liked!", photo_id])
-            else:
-                # if created -> OK
-                pass
-
         # get all likes for each photo
         for photo in photos:
             total_likes.append([Like.objects.
@@ -89,6 +74,25 @@ class MainPage(LoginRequiredMixin, View):
             "liked_photos": liked_photos_list,  # photos liked by logged user
         }
         return render(request, "main_page.html", context)
+
+    def post(self, request):
+        # if user clicked "like" or "dislike"
+        photo_id = request.POST.get('photo_id')
+        social_action = int(request.POST.get('social_action'))
+        # if user clicked "like" button
+        if social_action:
+            # creation of new Like object
+            photo = Photo.objects.get(pk=photo_id)
+            Like.objects.get_or_create(user=request.user, photo=photo)
+        # if user clicked "dislike" button
+        else:
+            like_obj = Like.objects.filter(user=request.user,
+                                           photo_id=photo_id)
+            like_obj.delete()
+        return redirect(reverse_lazy('main-page'))
+
+
+
 
 
 class AddUser(FormView):
@@ -208,5 +212,4 @@ class PhotoInfo(LoginRequiredMixin, View):
         Comment.objects.create(text=comment, user=request.user, photo=photo)
         return redirect(reverse_lazy('photo-info',
                                      kwargs={'photo_id': photo_id}))
-
 

@@ -12,10 +12,13 @@
     text-align: left;
 }
 
-.comments > tr, td:hover{
-    background-color: #aaa;
-}
-
 .comments > tr, td:nth-child(even){
     background-color: #f2f2f2;
+}
+
+.images {
+    height: auto;
+    width: auto;
+    max-width: 300px;
+    max-height: 300px;
 }

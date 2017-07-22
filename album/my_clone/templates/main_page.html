@@ -11,21 +11,22 @@
     <table>
         {% for photo in photos %}
         <tr>
-            <td class="img">
+            <td class="images">
                 <a href="{% url 'photo-info' photo_id=photo.id %}">
                    <img src="{{ photo.path }}"/>
                 </a>
-
             </td>
         </tr>
         <tr>
             <td class="img_info">
                 {{ photo.photo_info }}
                 <form id="{{ photo.id }}" class="like"
-                      action="{% url 'main-page' %}" method="get">
-		            <!--{%	csrf_token	%}-->
-                    <button class="like" type="submit" name="photo_id"
-                            value="{{ photo.id }}">Like!</button>
+                      action="{% url 'main-page' %}" method="POST">
+		            {%	csrf_token	%}
+                    <input type="hidden" name="photo_id"
+                           value="{{ photo.id }}">
+                    <button type="submit" name="social_action"
+                            value="1">Like!</button>
                 </form>
 
                 <span class="counter">
@@ -39,12 +40,14 @@
                     {% for liked_photo_id in liked_photos %}
                         {% if liked_photo_id == photo.id %}
                             You like it!
+                            <button type="submit" name="social_action"
+                                    form="{{ photo.id }}"
+                                    value="0">Dislike!</button>
                         {% endif %}
                     {% endfor %}
 
                     <!--if there is message to show for photo-->
                     {% if message.0.1 == photo.id|stringformat:"i" %}
-                        <!--"Already liked!" message - check MainPage View-->
                         {{ message.0.0 }}
                     {% endif %}
                 </span>
