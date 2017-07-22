@@ -13,8 +13,11 @@
                 {% endif %}
             </td>
             <td rowspan="3">
-                <a href="{% url 'user-update' pk=user.id %}">
+                <a class="link" href="{% url 'user-update' pk=user.id %}">
                     <button type="button">Edit</button>
+                </a>
+                <a class="link" href="{% url 'main-page' %}">
+                    <button type="button">Main Page</button>
                 </a>
             </td>
         </tr>
@@ -43,7 +46,7 @@
         {% for photo in photos %}
         <tr>
             <td class="img">
-                <a href="{% url 'photo-info' photo_id=photo.id %}">
+                <a class="link" href="{% url 'photo-info' photo_id=photo.id %}">
                     <img src="{{ photo.path }}"
                          alt="IMG ID:{{ photo.id }}"/>
                 </a>

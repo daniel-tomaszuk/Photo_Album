@@ -22,3 +22,11 @@
     max-width: 300px;
     max-height: 300px;
 }
+
+.link:link, .link:visited, .link:hover, .link:active {
+    color: #000;
+    text-decoration: none;
+}
+
+
+

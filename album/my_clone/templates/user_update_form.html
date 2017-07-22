@@ -5,8 +5,8 @@
 		{%	csrf_token	%}
 		<h1>{{ user }} data update! </h1>
 		{{	form.as_p	}}
-		<input	type="submit" value="Save">
-	    <a href="{% url 'user-info'%}">
+		<input type="submit" value="Save">
+	    <a class="link" href="{% url 'user-info'%}">
             <button type="button">Cancel</button>
         </a>
 </form>
