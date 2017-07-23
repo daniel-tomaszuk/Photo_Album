@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from my_clone.views import *
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -29,7 +31,7 @@ urlpatterns = [
     url(r'^user_update/(?P<pk>(\d)+)', UpdateUser.as_view(),
         name='user-update'),
 
-    url(r'^photo_info/(?P<photo_id>(\d)+)', PhotoInfo.as_view(),
+    url(r'^photo_info/(?P<photo_id>(\d)+)/$', PhotoInfo.as_view(),
         name="photo-info"),
     # url(r'^like_message/', LikeMessage.as_view(), name='like-message'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
