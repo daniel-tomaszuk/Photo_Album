@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
+
     <h1 class="img"> {{ title }}!</h1>
     <input type="button"
            onclick="location.href='{% url 'add-photo' %}';"
@@ -11,10 +12,21 @@
     <table>
         {% for photo in photos %}
         <tr>
-            <td class="images">
-                <a href="{% url 'photo-info' photo_id=photo.id %}">
-                   <img src="{{ photo.path }}"/>
-                </a>
+            <td>
+                {% if photo.path != "File_path" %}
+                {% load static %}
+                    <a href="{% url 'photo-info' photo_id=photo.id %}">
+                       <img class="images" src="{{ photo.path }}
+                       alt="ID: {{ photo.id }} ""/>
+                    </a>
+                {% endif %}
+                {% if photo.file != "Server_path" %}
+                {% load static %}
+                    <a href="{% url 'photo-info' photo_id=photo.id %}">
+                       <img class="images" src="/{{ photo.file.url }}"
+                            alt="ID: {{ photo.id }} "/>
+                    </a>
+                {% endif %}
             </td>
         </tr>
         <tr>

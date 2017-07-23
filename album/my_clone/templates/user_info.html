@@ -39,10 +39,22 @@
         {% for photo in photos %}
         <tr>
             <td class="img">
-                <a class="link" href="{% url 'photo-info' photo_id=photo.id %}">
-                    <img src="{{ photo.path }}"
-                         alt="IMG ID:{{ photo.id }}"/>
-                </a>
+                {% if photo.path != "File_path" %}
+                {% load static %}
+                    <a href="{% url 'photo-info' photo_id=photo.id %}">
+                       <img class="images" src="{{ photo.path }}"
+                            alt="ID: {{ photo.id }} "/>
+                    </a>
+                {% endif %}
+
+                {% if photo.file != "Server_path" %}
+                {% load static %}
+                    <a href="{% url 'photo-info' photo_id=photo.id %}">
+                       <img class="images" src="/{{ photo.file.url }}"
+                       alt="ID: {{ photo.id }} "/>
+                    </a>
+                {% endif %}
+
             </td>
         </tr>
         {% endfor %}

@@ -10,21 +10,21 @@ class Login(forms.Form):
 
 
 class AddPhotoForm(forms.Form):
-    server_path = forms.CharField(max_length=128, required=True)
-    # disk_file = forms.FileField(required=False)
+    server_path = forms.CharField(max_length=128, required=False)
+    disk_file = forms.FileField(required=False)
 
-    # def clean(self):
-    #     if not ((self.cleaned_data['server_path'] and
-    #        not self.cleaned_data['disk_file'])
-    #        or (not self.cleaned_data['server_path']
-    #        and self.cleaned_data['disk_file'])):
-    #
-    #         raise ValidationError({'pub_date': _
-    # ('Draft entries may not have a publication date.')})
-    #
-    #     raise forms.ValidationError({'server_path': 'Error'})
+    def clean(self):
+        # if more or less than one was given (XOR)
+        if not ((self.cleaned_data['server_path'] and
+           not self.cleaned_data['disk_file'])
 
-    # return self.cleaned_data
+           or (not self.cleaned_data['server_path']
+           and self.cleaned_data['disk_file'])):
+
+            raise forms.ValidationError({'server_path': 'Fill only '
+                                                        'one of fields'})
+
+        return self.cleaned_data
 
 
 class AddUserForm(forms.Form):

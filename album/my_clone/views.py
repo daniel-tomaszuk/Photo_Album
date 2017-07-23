@@ -140,25 +140,38 @@ class AddPhoto(LoginRequiredMixin, View):
 
     def post(self, request):
         form = AddPhotoForm(request.POST, request.FILES)
+
         if form.is_valid():
             server_path = form.cleaned_data['server_path']
-            # disk_file = form.cleaned_data['disk_file']
-            # if not ((server_path and not disk_file) or
-            #         (not server_path and disk_file)):
-                # raise forms.ValidationError('Please fill one of the fields.')
-                # context = {
-                #     'message': 'Please fill only one of the fields.',
-                #     'form': form,
-                # }
+            disk_file = form.cleaned_data['disk_file']
+            # XOR for input fields
+            if not ((server_path and not disk_file) or
+                    (not server_path and disk_file)):
+                raise forms.ValidationError('Please fill only one '
+                                            'of the fields.')
 
-            context = {
-                'message': 'Photo added!',
-                'form': form,
-            }
-            # create and save Photo Model!
-            new_photo = Photo.objects.create(path=server_path,
-                                             my_user=request.user)
-            new_photo.save()
+            if server_path:
+                # create and save Photo Model!
+                new_photo = Photo.objects.create(path=server_path,
+                                                 file="Server_path",
+                                                 my_user=request.user)
+                new_photo.save()
+                context = {
+                    'message': 'Photo path added!',
+                    'form': form,
+                }
+            if disk_file:
+                # save files
+                new_photo = Photo.objects.create(path="File_path",
+                                                 file=disk_file,
+                                                 my_user=request.user)
+                new_photo.save()
+                context = {
+                    'message': 'Photo file added!',
+                    'form': form,
+                }
+
+        # if form not valid
         else:
             context = {
                 'message': 'Form not valid!',

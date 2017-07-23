@@ -11,7 +11,8 @@ from django.contrib.auth.models import User
 
 class Photo(models.Model):
 
-    path = models.CharField(max_length=128)
+    path = models.CharField(max_length=128, default="File_path")
+    file = models.ImageField(upload_to='files/', default="Server_path")
     creation_date = models.DateTimeField(auto_now=True)
     my_user = models.ForeignKey(User)
 

@@ -8,7 +8,23 @@
     <p>
         {{ photo.photo_info }}
     </p>
-    <img src="{{ photo.path }} alt="IMG ID:{{ photo.id }}"/>
+
+    {% if photo.path != "File_path" %}
+    {% load static %}
+        <a href="{% url 'photo-info' photo_id=photo.id %}">
+           <img class="images" src="{{ photo.path }}"
+                alt="ID: {{ photo.id }} "/>
+        </a>
+    {% endif %}
+
+    {% if photo.file != "Server_path" %}
+    {% load static %}
+        <a href="{% url 'photo-info' photo_id=photo.id %}">
+           <img class="images" src="/{{ photo.file.url }}"
+           alt="ID: {{ photo.id }} "/>
+        </a>
+    {% endif %}
+
     <div class="comments">
         <h3>Comment section</h3>
         <table id="photo_comment_table">
