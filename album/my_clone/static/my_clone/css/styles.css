@@ -19,8 +19,8 @@
 .images {
     height: auto;
     width: auto;
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 500px;
+    max-height: 500px;
 }
 
 .link:link, .link:visited, .link:hover, .link:active {
