@@ -101,7 +101,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'my_clone/static/my_clone/')
+MEDIA_URL = 'files/'
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
