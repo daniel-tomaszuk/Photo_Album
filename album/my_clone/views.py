@@ -11,6 +11,7 @@ from django.core.urlresolvers import reverse_lazy
 # from django.contrib import messages
 # from django.contrib.messages import get_messages
 
+
 class Login(FormView):
 
     template_name = 'login.html'
@@ -96,7 +97,7 @@ class MainPage(LoginRequiredMixin, View):
 class AddUser(FormView):
     template_name = 'add_user.html'
     form_class = AddUserForm
-    success_url = reverse_lazy('add-user')
+    success_url = reverse_lazy('main-page')
 
     def form_valid(self, form):
         # takes data from the form
@@ -187,9 +188,16 @@ class UserInfo(LoginRequiredMixin, View):
     def get(self, request):
         logged_user = request.user
         photos = Photo.objects.filter(my_user_id=logged_user.id)
+        likes_list = []
+        comment_list = []
+        for photo in photos:
+            likes_list.append(photo.like_set.all())
+            comment_list.append(photo.comment_set.all())
+
         context = {
-            'user': logged_user,
             'photos': photos,
+            'likes_query': likes_list,
+            'comment_query': comment_list,
         }
         return render(request, "user_info.html", context)
 

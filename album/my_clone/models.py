@@ -36,7 +36,6 @@ class Like(models.Model):
                str(self.photo.id)
 
 
-
 class Comment(models.Model):
     text = models.TextField(max_length=255)
     user = models.ForeignKey(User)
@@ -50,6 +49,4 @@ class Comment(models.Model):
 
     def __str__(self):
         return "ID:" + str(self.id) + " " + self.comment_info
-
-
 

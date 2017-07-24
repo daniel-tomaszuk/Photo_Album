@@ -57,6 +57,35 @@
 
             </td>
         </tr>
+        <tr>
+            <td>
+                {{ photo.photo_info }}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Liked by:</b>
+                {% for query_set in likes_query %}
+                    {% for like in query_set %}
+                        {% if like.photo.id == photo.id %}
+                            {{ like.user.username }},
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>Comments:</b>
+                {% for query_set in comment_query %}
+                    {% for comment in query_set %}
+                        {% if comment.photo.id == photo.id %}
+                            "{{ comment.text }}" by {{ comment.user }}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            </td>
+        </tr>
         {% endfor %}
     </table>
 {% endblock %}
