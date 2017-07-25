@@ -157,20 +157,12 @@ class AddPhoto(LoginRequiredMixin, View):
                                                  file="Server_path",
                                                  my_user=request.user)
                 new_photo.save()
-                context = {
-                    'message': 'Photo path added!',
-                    'form': form,
-                }
             if disk_file:
                 # save files
                 new_photo = Photo.objects.create(path="File_path",
                                                  file=disk_file,
                                                  my_user=request.user)
                 new_photo.save()
-                context = {
-                    'message': 'Photo file added!',
-                    'form': form,
-                }
 
         # if form not valid
         else:
@@ -178,7 +170,8 @@ class AddPhoto(LoginRequiredMixin, View):
                 'message': 'Form not valid!',
                 'form': form,
             }
-        return render(request, "add_photo.html", context)
+            return render(request, "add_photo.html", context)
+        return redirect(reverse_lazy('main-page'))
 
 
 class UserInfo(LoginRequiredMixin, View):
